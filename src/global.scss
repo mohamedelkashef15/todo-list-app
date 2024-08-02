@@ -74,6 +74,7 @@ ul {
         background-color: $orange;
         color: #fff;
         font-size: 18px;
+        cursor: pointer;
       }
     }
   }
@@ -89,26 +90,24 @@ ul {
         position: relative;
         margin-right: 35px;
 
-        .checkmark {
+        .checkmark,
+        svg {
           position: absolute;
           top: 0;
           left: 0;
           border-radius: 50%;
           height: 20px;
           width: 20px;
-          border: 1px solid $dark-gray;
           cursor: pointer;
         }
 
         svg {
           background-color: $orange;
-          position: absolute;
-          top: 0;
-          left: 0;
-          border-radius: 50%;
-          height: 20px;
-          width: 20px;
           padding: 3px;
+        }
+
+        .checkmark {
+          border: 1px solid $dark-gray;
         }
 
         input {
