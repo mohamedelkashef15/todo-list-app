@@ -1,0 +1,11 @@
+Project Functionality 
+  - onClick to Add button 
+    - new task is been added 
+
+  - onClick to "x" button
+    - selected task removed 
+
+  - onClick to checkbox
+    - it will be toggled between checked & unchecked + display line-through on text
+
+  - if we refresh the browser it will be the same tasks displayed because we used localStorage
