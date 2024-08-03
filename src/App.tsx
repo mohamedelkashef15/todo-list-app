@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IItem {
   id: number;
@@ -9,20 +9,30 @@ interface IItem {
   onToggleItem?: (id: number) => void;
 }
 
+interface IListItems {
+  items: IItem[];
+  onDeleteItem: (val: number) => void;
+  onToggleItem: (val: number) => void;
+}
+
 interface IForm {
   description: string;
   setDescription: (val: string) => void;
   onAddItem: (val: IItem) => void;
 }
 
-// const tempData = [
-//   { id: 1, description: "Create a JavaScript Project", selected: false },
-//   { id: 2, description: "Upload it online", selected: true },
-// ];
-
 function App() {
   const [description, setDescription] = useState("");
-  const [items, setItems] = useState<IItem[]>([]);
+  const [items, setItems] = useState<IItem[]>(() => {
+    // Load items from local storage or initialize to an empty array
+    const savedItems = localStorage.getItem("items");
+    return savedItems ? JSON.parse(savedItems) : [];
+  });
+
+  // Save items to local storage whenever items change
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
 
   function handleAddItem(item: IItem) {
     setItems((prevItems) => [...prevItems, item]);
@@ -52,7 +62,9 @@ function App() {
 function Form({ description, setDescription, onAddItem }: IForm) {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!description) return;
+    if (!description) {
+      return alert("You must type something");
+    }
 
     const newItem = {
       id: Date.now(),
@@ -78,15 +90,7 @@ function Form({ description, setDescription, onAddItem }: IForm) {
   );
 }
 
-function ListItems({
-  items,
-  onDeleteItem,
-  onToggleItem,
-}: {
-  items: IItem[];
-  onDeleteItem: (val: number) => void;
-  onToggleItem: (val: number) => void;
-}) {
+function ListItems({ items, onDeleteItem, onToggleItem }: IListItems) {
   return (
     <ul className="list-items">
       {items.map((item) => (
